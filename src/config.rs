@@ -80,19 +80,19 @@ impl Config {
             .arg(
                 Arg::with_name("daemon_dir")
                     .long("daemon-dir")
-                    .help("Data directory of Litecoind (default: ~/.litecoin/)")
+                    .help("Data directory of Cyberyend (default: ~/.cyberyen/)")
                     .takes_value(true),
             )
             .arg(
                 Arg::with_name("blocks_dir")
                     .long("blocks-dir")
-                    .help("Analogous to litecoind's -blocksdir option, this specifies the directory containing the raw blocks files (blk*.dat) (default: ~/.litecoin/blocks/)")
+                    .help("Analogous to cyberyend's -blocksdir option, this specifies the directory containing the raw blocks files (blk*.dat) (default: ~/.cyberyen/blocks/)")
                     .takes_value(true),
             )
             .arg(
                 Arg::with_name("cookie")
                     .long("cookie")
-                    .help("JSONRPC authentication cookie ('USER:PASSWORD', default: read from ~/.litecoin/.cookie)")
+                    .help("JSONRPC authentication cookie ('USER:PASSWORD', default: read from ~/.cyberyen/.cookie)")
                     .takes_value(true),
             )
             .arg(
@@ -208,10 +208,10 @@ impl Config {
         let db_path = db_dir.join(network_name);
 
         let default_daemon_port = match network_type {
-            Network::Bitcoin => 9332,
-            Network::Testnet => 19332,
-            Network::Regtest => 19443,
-            Network::Signet => 3932,
+            Network::Bitcoin => 58382,
+            Network::Testnet => 44549,
+            Network::Regtest => 39332,
+            Network::Signet => 18439,
         };
         let default_electrum_port = match network_type {
             Network::Bitcoin => 50001,
@@ -235,7 +235,7 @@ impl Config {
         let daemon_rpc_addr: SocketAddr = str_to_socketaddr(
             m.value_of("daemon_rpc_addr")
                 .unwrap_or(&format!("127.0.0.1:{}", default_daemon_port)),
-            "Litecoin RPC",
+            "Cyberyen RPC",
         );
         let electrum_rpc_addr: SocketAddr = str_to_socketaddr(
             m.value_of("electrum_rpc_addr")
@@ -260,7 +260,7 @@ impl Config {
             .map(PathBuf::from)
             .unwrap_or_else(|| {
                 let mut default_dir = home_dir().expect("no homedir");
-                default_dir.push(".litecoin");
+                default_dir.push(".cyberyen");
                 default_dir
             });
         match network_type {
